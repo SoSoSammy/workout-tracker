@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { Workout } from './workout.model';
 
 @Injectable({ providedIn: 'root' })
 export class WorkoutService {
+  workoutsChanged = new Subject<Workout[]>();
+
   private workouts = [
     new Workout(
       'Upper Body Workout',
@@ -37,5 +40,15 @@ export class WorkoutService {
 
   getWorkout(index: number) {
     return this.workouts[index];
+  }
+
+  updateWorkout(index: number, workout: Workout) {
+    this.workouts[index] = workout;
+    this.workoutsChanged.next(this.workouts.slice());
+  }
+
+  addWorkout(workout: Workout) {
+    this.workouts.push(workout);
+    this.workoutsChanged.next(this.workouts.slice());
   }
 }
