@@ -90,6 +90,6 @@
     *Please fill out all form inputs
   </p>
   <button type="submit" class="btn btn-green" [disabled]="!workoutForm.valid">
-    Add Workout
+    {{ editMode ? "Update Workout" : "Add Workout" }}
   </button>
 </form>
