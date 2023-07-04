@@ -1,0 +1,8 @@
+<div class="list-group mb-3">
+  <app-workout-item
+    *ngFor="let workoutEl of workouts; let i = index"
+    [workout]="workoutEl"
+    [index]="i"
+  ></app-workout-item>
+</div>
+<!-- end .list-group -->
