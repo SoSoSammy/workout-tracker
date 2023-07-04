@@ -1,0 +1,95 @@
+<form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
+  <!-- Name -->
+  <div class="mb-3">
+    <label for="name">Name</label>
+    <input type="text" id="name" class="form-control" formControlName="name" />
+  </div>
+  <!-- end .mb-3 -->
+
+  <!-- Date -->
+  <div class="mb-3">
+    <label for="date">Date</label>
+    <input type="date" id="date" class="form-control" formControlName="date" />
+  </div>
+  <!-- end .mb-3 -->
+
+  <!-- Type -->
+  <div class="mb-3">
+    <label for="type">Type</label>
+    <input
+      type="text"
+      id="type"
+      class="form-control"
+      aria-describedby="workoutTypeHelp"
+      formControlName="type"
+    />
+    <div id="workoutTypeHelp" class="form-text">
+      Type of your workout, ex: Upper Body, Lower Body, Full Body, HIIT, etc
+    </div>
+  </div>
+  <!-- end .mb-3 -->
+
+  <!-- Duration -->
+  <div class="mb-3">
+    <label for="duration">Duration</label>
+    <input
+      type="text"
+      id="duration"
+      class="form-control"
+      formControlName="duration"
+    />
+  </div>
+  <!-- end .mb-3 -->
+
+  <!-- YouTube Video Urls -->
+  <div class="mb-3">
+    <label for="video">Youtube Video Urls</label>
+    <div formArrayName="videos">
+      <div *ngFor="let videoCtrl of controls; let i = index" class="row">
+        <div class="col-11">
+          <input
+            type="text"
+            id="video"
+            class="form-control mb-2"
+            [formControlName]="i"
+          />
+        </div>
+        <!-- end .col-11 -->
+
+        <!-- Delete Video Input -->
+        <div class="col-1">
+          <button class="btn btn-danger" (click)="onDeleteVideo(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <!-- end .col-1 -->
+      </div>
+      <!-- end .row -->
+    </div>
+
+    <!-- Add Video Input -->
+    <button type="button" class="btn btn-green mt-1" (click)="onAddVideo()">
+      Add Another Video
+    </button>
+  </div>
+  <!-- end .mb-3 -->
+
+  <!-- Notes -->
+  <div class="mb-3">
+    <label for="notes">Notes</label>
+    <textarea
+      id="notes"
+      rows="5"
+      class="form-control"
+      formControlName="notes"
+    ></textarea>
+  </div>
+  <!-- end .mb-3 -->
+
+  <p *ngIf="!workoutForm.valid" class="text-muted">
+    *Please fill out all form inputs
+  </p>
+  <button type="submit" class="btn btn-green" [disabled]="!workoutForm.valid">
+    Add Workout
+  </button>
+</form>
