@@ -84,6 +84,13 @@ export class WorkoutEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.workoutForm);
+    // Editing a workout
+    if (this.editMode)
+      this.workoutService.updateWorkout(this.id, this.workoutForm.value);
+    // Adding a new workout
+    else this.workoutService.addWorkout(this.workoutForm.value);
+
+    // Redirect up a level
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }
