@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+span.badge {
+  background-color: #0db0f0;
+}
+
+button.btn-green {
+  background-color: #5cb85c;
+  color: white;
+}
+
+button.btn-green:hover {
+  background-color: #449d44;
+  color: white;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px solid #dc3545;
+}
