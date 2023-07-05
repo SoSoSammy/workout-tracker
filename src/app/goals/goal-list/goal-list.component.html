@@ -1,2 +1,8 @@
-<p>Goal-list works!</p>
-<app-goal-item></app-goal-item>
+<div class="list-group mb-3">
+  <app-goal-item
+    *ngFor="let goalEl of goals; let i = index"
+    [goal]="goalEl"
+    [index]="i"
+  ></app-goal-item>
+</div>
+<!-- end .list-group -->
