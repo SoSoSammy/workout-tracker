@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,8 @@ import { GoalListComponent } from './goals/goal-list/goal-list.component';
 import { GoalItemComponent } from './goals/goal-list/goal-item/goal-item.component';
 import { GoalEditComponent } from './goals/goal-edit/goal-edit.component';
 import { WorkoutStartComponent } from './workouts/workout-start/workout-start.component';
+import { GoalStartComponent } from './goals/goal-start/goal-start.component';
+import { GoalDetailComponent } from './goals/goal-detail/goal-detail.component';
 
 @NgModule({
   declarations: [
@@ -29,9 +32,11 @@ import { WorkoutStartComponent } from './workouts/workout-start/workout-start.co
     GoalsComponent,
     GoalListComponent,
     GoalItemComponent,
+    GoalDetailComponent,
     GoalEditComponent,
+    GoalStartComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
