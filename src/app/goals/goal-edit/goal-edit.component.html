@@ -1,1 +1,65 @@
-<p>Goal-edit works!</p>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <div class="mb-3">
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      class="form-control"
+      ngModel
+      required
+    />
+  </div>
+  <!-- end .mb-3 -->
+
+  <div class="row">
+    <div class="col mb-3">
+      <label for="startDate">Start Date</label>
+      <input
+        type="date"
+        id="startDate"
+        name="startDate"
+        class="form-control"
+        ngModel
+        required
+      />
+    </div>
+    <!-- end .col -->
+
+    <div class="col mb-3">
+      <label for="endDate">End Date</label>
+      <input
+        type="date"
+        id="endDate"
+        name="endDate"
+        class="form-control"
+        aria-describedby="goalEndDateHelp"
+        ngModel
+      />
+      <div id="goalEndDateHelp" class="form-text">
+        Don't worry if you haven't finished your goal yet, you can add the end
+        date later
+      </div>
+    </div>
+    <!-- end .col -->
+  </div>
+  <!-- end .row -->
+
+  <div class="mb-3">
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      name="description"
+      rows="5"
+      class="form-control"
+      ngModel
+      required
+    ></textarea>
+  </div>
+  <!-- end .mb-3 -->
+
+  <p *ngIf="!f.valid" class="text-muted">*Please fill out all form inputs</p>
+  <button type="submit" class="btn btn-green" [disabled]="!f.valid">
+    {{ editMode ? "Update Goal" : "Add Goal" }}
+  </button>
+</form>
