@@ -1,1 +1,26 @@
-<p>Goal-item works!</p>
+<a
+  style="cursor: pointer"
+  class="list-group-item list-group-item-action"
+  [routerLink]="[index]"
+  routerLinkActive="active"
+>
+  <div class="d-flex justify-content-between align-items-start">
+    <div class="d-flex flex-column">
+      <span class="fw-semibold">{{ goal.name }}</span>
+      {{ goal.description }}
+    </div>
+
+    <div>
+      <!-- Start Date -->
+      <span class="badge rounded-pill"
+        >Start Date: {{ goal.startDate | date : "shortDate" }}</span
+      >
+
+      <!-- End Date -->
+      <span *ngIf="goal.endDate !== ''" class="badge rounded-pill ms-3"
+        >End Date: {{ goal.endDate | date : "shortDate" }}</span
+      >
+    </div>
+  </div>
+  <!-- end .d-flex -->
+</a>
