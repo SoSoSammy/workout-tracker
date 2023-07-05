@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { Workout } from '../workout.model';
@@ -17,6 +17,7 @@ export class WorkoutDetailComponent implements OnInit {
   constructor(
     private workoutService: WorkoutService,
     private route: ActivatedRoute,
+    private router: Router,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -32,12 +33,21 @@ export class WorkoutDetailComponent implements OnInit {
   // Change YouTube urls to iframe embed urls
   transformUrlsToEmbedUrls() {
     this.videoUrls = this.workout.videos.map((url) => {
-      const videoId = url.slice(32);
-      console.log(videoId);
+      let videoId = url.slice(32);
+      // Get rid of URL parameters in URL
+      if (videoId.includes('&')) {
+        // Only get the beginning of the string and the characters before the &
+        videoId = videoId.substring(0, videoId.indexOf('&'));
+      }
+
       return this.sanitizer.bypassSecurityTrustResourceUrl(
         `https://www.youtube.com/embed/${videoId}`
       );
     });
-    console.log(this.videoUrls);
+  }
+
+  onDeleteWorkout() {
+    this.workoutService.deleteWorkout(this.id);
+    this.router.navigate(['/workouts']);
   }
 }
