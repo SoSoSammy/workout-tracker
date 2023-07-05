@@ -6,6 +6,9 @@ import { GoalsComponent } from './goals/goals.component';
 import { WorkoutDetailComponent } from './workouts/workout-detail/workout-detail.component';
 import { WorkoutStartComponent } from './workouts/workout-start/workout-start.component';
 import { WorkoutEditComponent } from './workouts/workout-edit/workout-edit.component';
+import { GoalStartComponent } from './goals/goal-start/goal-start.component';
+import { GoalEditComponent } from './goals/goal-edit/goal-edit.component';
+import { GoalDetailComponent } from './goals/goal-detail/goal-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/workouts', pathMatch: 'full' },
@@ -19,7 +22,16 @@ const routes: Routes = [
       { path: ':id/edit', component: WorkoutEditComponent },
     ],
   },
-  { path: 'goals', component: GoalsComponent },
+  {
+    path: 'goals',
+    component: GoalsComponent,
+    children: [
+      { path: '', component: GoalStartComponent },
+      { path: 'new', component: GoalEditComponent },
+      { path: ':id', component: GoalDetailComponent },
+      { path: ':id/edit', component: GoalEditComponent },
+    ],
+  },
 ];
 
 @NgModule({
