@@ -9,11 +9,15 @@ import { WorkoutService } from '../workout.service';
   templateUrl: './workout-list.component.html',
 })
 export class WorkoutListComponent implements OnInit, OnDestroy {
-  workouts: Workout[];
-  subscription: Subscription;
+  workouts: Workout[]; // The workouts from the workout service
+  subscription: Subscription; // The subscription to the workout service
 
   constructor(private workoutService: WorkoutService) {}
 
+  /**
+   * Subscribes to changes from the workout service and updates the workouts
+   * accordingly.
+   */
   ngOnInit() {
     // When workouts array changes, reflect change in workout list
     this.subscription = this.workoutService.workoutsChanged.subscribe(
@@ -24,6 +28,10 @@ export class WorkoutListComponent implements OnInit, OnDestroy {
     this.workouts = this.workoutService.getWorkouts();
   }
 
+  /**
+   * Unsubscribes from the workout service subscription when the component
+   * is destroyed.
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
