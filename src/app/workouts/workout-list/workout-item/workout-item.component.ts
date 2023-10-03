@@ -7,8 +7,8 @@ import { Workout } from '../../workout.model';
   templateUrl: './workout-item.component.html',
 })
 export class WorkoutItemComponent implements OnInit {
-  @Input() workout: Workout;
-  @Input() index: number;
+  @Input() workout: Workout; // The workout passed in from the workout list
+  @Input() index: number; // the index of the workout passed in from the workout list
 
   ngOnInit() {
     console.log(this.index);
