@@ -5,9 +5,9 @@ import { Workout } from './workout.model';
 
 @Injectable({ providedIn: 'root' })
 export class WorkoutService {
-  workoutsChanged = new Subject<Workout[]>();
+  workoutsChanged = new Subject<Workout[]>(); // For when the workouts are updated
 
-  private workouts: Workout[] = [];
+  private workouts: Workout[] = []; // The workouts
   // private workouts = [
   //   new Workout(
   //     'Upper Body Workout',
@@ -35,30 +35,68 @@ export class WorkoutService {
   //   ),
   // ];
 
+  /**
+   * Builds the workout service with the workouts from local
+   * storage. If there is nothing stored in local storage,
+   * workouts will be initialized to an empty array.
+   */
   constructor() {
-    this.getLocalStorage();
+    this.workouts = this.getLocalStorage();
   }
 
+  /**
+   * Gets the workouts.
+   *
+   * @returns a copy of the workouts array
+   */
   getWorkouts() {
     return this.workouts.slice();
   }
 
+  /**
+   * Gets a specified workout.
+   *
+   * @param index - the index of the workout
+   * @returns the workout with the specified index
+   */
   getWorkout(index: number) {
     return this.workouts[index];
   }
 
+  /**
+   * Takes a workout and updates it to the new workout. Updates
+   * the workoutsChanged Subject with the new workouts array
+   * and updates the browser local storage.
+   *
+   * @param index - the index of the workout to be updated
+   * @param workout - the new workout
+   */
   updateWorkout(index: number, workout: Workout) {
     this.workouts[index] = workout;
     this.workoutsChanged.next(this.workouts.slice());
     this.setLocalStorage();
   }
 
+  /**
+   * Adds a workout to the workouts list. Updates the workoutsChanged
+   * Subject with the new workouts array and updates the browser local
+   * storage.
+   *
+   * @param workout - the new workout
+   */
   addWorkout(workout: Workout) {
     this.workouts.push(workout);
     this.workoutsChanged.next(this.workouts.slice());
     this.setLocalStorage();
   }
 
+  /**
+   * Deletes a specified workout once the user has confirmed the
+   * deletion request. Updates the workoutsChanged Subject with the
+   * new workouts array and updates the browser local storage.
+   *
+   * @param index - the index of the workout to be deleted
+   */
   deleteWorkout(index: number) {
     if (confirm('Are you sure you want to delete this workout?'))
       this.workouts.splice(index, 1);
@@ -66,14 +104,23 @@ export class WorkoutService {
     this.setLocalStorage();
   }
 
+  /**
+   * Gets the workouts stored in local storage.
+   *
+   * @returns the workouts retrieved from local storage, and an empty
+   * array if there are no workouts
+   */
   private getLocalStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'));
 
-    if (!data) return;
+    if (!data) return [];
 
-    this.workouts = data;
+    return data;
   }
 
+  /**
+   * Sets the browser local storage with the current workouts.
+   */
   private setLocalStorage() {
     localStorage.setItem('workouts', JSON.stringify(this.workouts));
   }
