@@ -9,16 +9,28 @@ import { WorkoutService } from '../workout.service';
   templateUrl: './workout-edit.component.html',
 })
 export class WorkoutEditComponent implements OnInit {
-  id: number;
-  editMode = false;
-  workoutForm: FormGroup;
+  id: number; // The id of workout to edit. NaN if no workout was selected
+  editMode = false; // If the form is in edit mode
+  workoutForm: FormGroup; // The workout form
 
+  /**
+   * Builds the workout edit component with its necessary services.
+   *
+   * @param route - the current route
+   * @param router - the router
+   * @param workoutService - the workout service
+   */
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private workoutService: WorkoutService
   ) {}
 
+  /**
+   * Subscribes to changes in the URL parameters and sets the current id and edit mode to
+   * reflect the url parameters. Calls the method initForm() to initialize the form values
+   * with the correct values.
+   */
   ngOnInit() {
     // Subscribe to changes in URL parameters
     this.route.params.subscribe((params: Params) => {
@@ -29,6 +41,9 @@ export class WorkoutEditComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates a form to add a new workout or edit an existing one.
+   */
   private initForm() {
     // Set default workout values
     let workoutName = '';
@@ -66,23 +81,37 @@ export class WorkoutEditComponent implements OnInit {
     });
   }
 
-  // Get workout video form controls
+  /**
+   * Gets the videos form controls (inputs) from the workout form.
+   *
+   * @returns the videos form controls
+   */
   get controls() {
     return (<FormArray>this.workoutForm.get('videos')).controls;
   }
 
-  // Delete the specified video form control
+  /**
+   * Deletes a specified video form control
+   *
+   * @param index - the index of the video form control
+   */
   onDeleteVideo(index: number) {
     (<FormArray>this.workoutForm.get('videos')).removeAt(index);
   }
 
-  // Add a video form control
+  /**
+   * Adds a video form control to the workout form
+   */
   onAddVideo() {
     (<FormArray>this.workoutForm.get('videos')).push(
       new FormControl(null, Validators.required)
     );
   }
 
+  /**
+   * Submits the form and updates the specified workout if the form is in edit mode,
+   * and creates a new workout if not. Redirects up one level after submitting the form.
+   */
   onSubmit() {
     // Editing a workout
     if (this.editMode)
