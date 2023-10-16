@@ -7,6 +7,6 @@ import { Goal } from '../../goal.model';
   templateUrl: './goal-item.component.html',
 })
 export class GoalItemComponent {
-  @Input() goal: Goal;
-  @Input() index: number;
+  @Input() goal: Goal; // The goal passed in from the goal list component
+  @Input() index: number; // The index of the goal passed in from the goal list component
 }
