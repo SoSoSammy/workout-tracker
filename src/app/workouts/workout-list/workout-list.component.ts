@@ -12,6 +12,11 @@ export class WorkoutListComponent implements OnInit, OnDestroy {
   workouts: Workout[]; // The workouts from the workout service
   subscription: Subscription; // The subscription to the workout service
 
+  /**
+   * Builds the workout list component with the workout service.
+   *
+   * @param workoutService - the workout service
+   */
   constructor(private workoutService: WorkoutService) {}
 
   /**
