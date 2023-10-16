@@ -10,8 +10,8 @@ import { GoalService } from '../goal.service';
   templateUrl: './goal-detail.component.html',
 })
 export class GoalDetailComponent implements OnInit {
-  goal: Goal;
-  id: number;
+  goal: Goal; // The current goal
+  id: number; // The id of the current goal
   subscription: Subscription;
 
   constructor(
