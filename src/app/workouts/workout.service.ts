@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { Workout } from './workout.model';
@@ -8,32 +8,6 @@ export class WorkoutService {
   workoutsChanged = new Subject<Workout[]>(); // For when the workouts are updated
 
   private workouts: Workout[] = []; // The workouts
-  // private workouts = [
-  //   new Workout(
-  //     'Upper Body Workout',
-  //     '2023-07-04',
-  //     'Upper Body',
-  //     '45 minutes',
-  //     [
-  //       'https://www.youtube.com/watch?v=T7Mk9KBuhAU',
-  //       'https://www.youtube.com/watch?v=t4n9VKZXV2E',
-  //       'https://www.youtube.com/watch?v=7KSoWzbznhk',
-  //     ],
-  //     'Feeling stronger every day!'
-  //   ),
-  //   new Workout(
-  //     'Lower Body Workout',
-  //     '2023-07-04',
-  //     'Lower Body',
-  //     '40 minutes',
-  //     [
-  //       'https://www.youtube.com/watch?v=T7Mk9KBuhAU',
-  //       'https://www.youtube.com/watch?v=Cq8xjqDLPKg',
-  //       'https://www.youtube.com/watch?v=7KSoWzbznhk',
-  //     ],
-  //     'Feeling stronger every day!'
-  //   ),
-  // ];
 
   /**
    * Builds the workout service with the workouts from local
@@ -74,7 +48,7 @@ export class WorkoutService {
   updateWorkout(index: number, workout: Workout) {
     this.workouts[index] = workout;
     this.workoutsChanged.next(this.workouts.slice());
-    this.setLocalStorage();
+    this.setLocalStorage(this.workouts);
   }
 
   /**
@@ -87,7 +61,7 @@ export class WorkoutService {
   addWorkout(workout: Workout) {
     this.workouts.push(workout);
     this.workoutsChanged.next(this.workouts.slice());
-    this.setLocalStorage();
+    this.setLocalStorage(this.workouts);
   }
 
   /**
@@ -101,7 +75,7 @@ export class WorkoutService {
     if (confirm('Are you sure you want to delete this workout?'))
       this.workouts.splice(index, 1);
     this.workoutsChanged.next(this.workouts.slice());
-    this.setLocalStorage();
+    this.setLocalStorage(this.workouts);
   }
 
   /**
@@ -120,8 +94,10 @@ export class WorkoutService {
 
   /**
    * Sets the browser local storage with the current workouts.
+   *
+   * @param workouts - the workouts to be stored in local storage
    */
-  private setLocalStorage() {
-    localStorage.setItem('workouts', JSON.stringify(this.workouts));
+  private setLocalStorage(workouts: Workout[]) {
+    localStorage.setItem('workouts', JSON.stringify(workouts));
   }
 }
