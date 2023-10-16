@@ -91,7 +91,7 @@ export class WorkoutEditComponent implements OnInit {
   }
 
   /**
-   * Deletes a specified video form control
+   * Deletes a specified video form control.
    *
    * @param index - the index of the video form control
    */
@@ -100,7 +100,7 @@ export class WorkoutEditComponent implements OnInit {
   }
 
   /**
-   * Adds a video form control to the workout form
+   * Adds a video form control to the workout form.
    */
   onAddVideo() {
     (<FormArray>this.workoutForm.get('videos')).push(
