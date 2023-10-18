@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 import { Workout } from '../workout.model';
 import { WorkoutService } from '../workout.service';
@@ -9,10 +10,11 @@ import { WorkoutService } from '../workout.service';
   selector: 'app-workout-detail',
   templateUrl: './workout-detail.component.html',
 })
-export class WorkoutDetailComponent implements OnInit {
+export class WorkoutDetailComponent implements OnInit, OnDestroy {
   workout: Workout; // The current workout
   id: number; // The id of the current workout
   videoUrls: SafeResourceUrl[]; // An array of YouTube embed URLs
+  subscription: Subscription; // The subscription to the route parameters
 
   /**
    * Builds the workout detail component with its necessary services.
@@ -36,7 +38,7 @@ export class WorkoutDetailComponent implements OnInit {
    */
   ngOnInit() {
     // Subscribe to changes in URL parameters
-    this.route.params.subscribe((params: Params) => {
+    this.subscription = this.route.params.subscribe((params: Params) => {
       this.id = +params.id;
       this.workout = this.workoutService.getWorkout(this.id);
       this.videoUrls = this.transformUrlsToEmbedUrls(this.workout.videos);
@@ -76,5 +78,13 @@ export class WorkoutDetailComponent implements OnInit {
   onDeleteWorkout() {
     this.workoutService.deleteWorkout(this.id);
     this.router.navigate(['/workouts']);
+  }
+
+  /**
+   * Unsubscribes from the route parameters subscription when the component
+   * is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
