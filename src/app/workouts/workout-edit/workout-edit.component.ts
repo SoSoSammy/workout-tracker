@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { WorkoutService } from '../workout.service';
 
@@ -8,10 +9,11 @@ import { WorkoutService } from '../workout.service';
   selector: 'app-workout-edit',
   templateUrl: './workout-edit.component.html',
 })
-export class WorkoutEditComponent implements OnInit {
+export class WorkoutEditComponent implements OnInit, OnDestroy {
   id: number; // The id of workout to edit. NaN if no workout was selected
   editMode = false; // If the form is in edit mode
   workoutForm: FormGroup; // The workout form
+  subscription: Subscription; // The subscription to the route parameters
 
   /**
    * Builds the workout edit component with its necessary services.
@@ -27,13 +29,13 @@ export class WorkoutEditComponent implements OnInit {
   ) {}
 
   /**
-   * Subscribes to changes in the URL parameters and sets the current id and edit mode to
-   * reflect the url parameters. Calls the method initForm() to initialize the form values
+   * Subscribes to changes in the route parameters and sets the current id and edit mode to
+   * reflect the route parameters. Calls the method initForm() to initialize the form values
    * with the correct values.
    */
   ngOnInit() {
     // Subscribe to changes in URL parameters
-    this.route.params.subscribe((params: Params) => {
+    this.subscription = this.route.params.subscribe((params: Params) => {
       this.id = +params.id;
       // Decide if we are in edit mode based on if id URL parameter is present
       this.editMode = params.id != null;
@@ -47,7 +49,7 @@ export class WorkoutEditComponent implements OnInit {
   private initForm() {
     // Set default workout values
     let workoutName = '';
-    let workoutDate = null;
+    let workoutDate = '';
     let workoutType = '';
     let workoutDuration = '';
     let workoutVideos = new FormArray([]);
@@ -121,5 +123,13 @@ export class WorkoutEditComponent implements OnInit {
 
     // Redirect up a level
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  /**
+   * Unsubscribes from the route parameters subscription when the component
+   * is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
