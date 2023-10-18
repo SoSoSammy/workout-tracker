@@ -1,14 +1,7 @@
-<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+<form [formGroup]="goalForm" (ngSubmit)="onSubmit()">
   <div class="mb-3">
     <label for="name">Name</label>
-    <input
-      type="text"
-      id="name"
-      name="name"
-      class="form-control"
-      ngModel
-      required
-    />
+    <input type="text" id="name" class="form-control" formControlName="name" />
   </div>
   <!-- end .mb-3 -->
 
@@ -18,10 +11,8 @@
       <input
         type="date"
         id="startDate"
-        name="startDate"
         class="form-control"
-        ngModel
-        required
+        formControlName="startDate"
       />
     </div>
     <!-- end .col -->
@@ -31,10 +22,9 @@
       <input
         type="date"
         id="endDate"
-        name="endDate"
         class="form-control"
         aria-describedby="goalEndDateHelp"
-        ngModel
+        formControlName="endDate"
       />
       <div id="goalEndDateHelp" class="form-text">
         Don't worry if you haven't finished your goal yet, you can add the end
@@ -49,17 +39,17 @@
     <label for="description">Description</label>
     <textarea
       id="description"
-      name="description"
       rows="5"
       class="form-control"
-      ngModel
-      required
+      formControlName="description"
     ></textarea>
   </div>
   <!-- end .mb-3 -->
 
-  <p *ngIf="!f.valid" class="text-muted">*Please fill out all form inputs</p>
-  <button type="submit" class="btn btn-green" [disabled]="!f.valid">
+  <p *ngIf="!goalForm.valid" class="text-muted">
+    *Please fill out all form inputs
+  </p>
+  <button type="submit" class="btn btn-green" [disabled]="!goalForm.valid">
     {{ editMode ? "Update Goal" : "Add Goal" }}
   </button>
 </form>
