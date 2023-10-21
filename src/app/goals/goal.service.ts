@@ -7,17 +7,16 @@ import { Goal } from './goal.model';
 export class GoalService {
   goalsChanged = new Subject<Goal[]>(); // For when the goals are updated
 
-  private goals = [
-    new Goal('Health Goal', '2023-01-01', '', 'Weigh 150 pounds'),
-    new Goal('Workout Goal', '2023-07-01', '', 'Work out every day'),
-    new Goal(
-      'Nutrition Goal',
-      '2023-07-01',
-      '',
-      'Eat 150 grams of protein daily'
-    ),
-    new Goal('Fitness Goal', '2021-07-01', '2023-05-03', 'Perform 1 pushup'),
-  ];
+  private goals: Goal[] = []; // The goals
+
+  /**
+   * Builds the goal service with the goals from local
+   * storage. If there is nothing stored in local storage,
+   * goals will be initialized to an empty array.
+   */
+  constructor() {
+    this.goals = this.getLocalStorage();
+  }
 
   /**
    * Gets the goals.
@@ -36,5 +35,69 @@ export class GoalService {
    */
   getGoal(index: number) {
     return this.goals[index];
+  }
+
+  /**
+   * Takes a goal and updates it to the new goal. Updates
+   * the goalsChanged Subject with the new goals array
+   * and updates the browser local storage.
+   *
+   * @param index - the index of the goal to be updated
+   * @param goal - the new goal
+   */
+  updateGoal(index: number, goal: Goal) {
+    this.goals[index] = goal;
+    this.goalsChanged.next(this.goals.slice());
+    this.setLocalStorage(this.goals);
+  }
+
+  /**
+   * Adds a goal to the goals list. Updates the goalsChanged
+   * Subject with the new goals array and updates the browser local
+   * storage.
+   *
+   * @param goal - the new goal
+   */
+  addGoal(goal: Goal) {
+    this.goals.push(goal);
+    this.goalsChanged.next(this.goals.slice());
+    this.setLocalStorage(this.goals);
+  }
+
+  /**
+   * Deletes a specified goal once the user has confirmed the
+   * deletion request. Updates the goalsChanged Subject with the
+   * new goals array and updates the browser local storage.
+   *
+   * @param index - the index of the goal to be deleted
+   */
+  deleteGoal(index: number) {
+    if (confirm('Are you sure you want to delete this goal?'))
+      this.goals.splice(index, 1);
+    this.goalsChanged.next(this.goals.slice());
+    this.setLocalStorage(this.goals);
+  }
+
+  /**
+   * Gets the goals stored in local storage.
+   *
+   * @returns the goals retrieved from local storage, and an empty
+   * array if there are no goals
+   */
+  private getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('goals'));
+
+    if (!data) return [];
+
+    return data;
+  }
+
+  /**
+   * Sets the browser local storage with the current goals.
+   *
+   * @param goals - the goals to be stored in local storage
+   */
+  private setLocalStorage(goals: Goal[]) {
+    localStorage.setItem('goals', JSON.stringify(goals));
   }
 }
