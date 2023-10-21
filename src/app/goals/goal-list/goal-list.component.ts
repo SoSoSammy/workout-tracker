@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { Goal } from '../goal.model';
 import { GoalService } from '../goal.service';
@@ -9,6 +10,7 @@ import { GoalService } from '../goal.service';
 })
 export class GoalListComponent implements OnInit {
   goals: Goal[]; // The goals
+  subscription: Subscription; // The subscription to the goal service
 
   /**
    * Builds the goal list component with its necessary services.
@@ -18,10 +20,15 @@ export class GoalListComponent implements OnInit {
   constructor(private goalService: GoalService) {}
 
   /**
-   * Initializes the goal list component with the goals from the
-   * goal service.
+   * Subscribes to changes from the goal service and updates the goals
+   * accordingly.
    */
   ngOnInit() {
+    this.subscription = this.goalService.goalsChanged.subscribe(
+      (goals: Goal[]) => {
+        this.goals = goals;
+      }
+    );
     this.goals = this.goalService.getGoals();
   }
 }
