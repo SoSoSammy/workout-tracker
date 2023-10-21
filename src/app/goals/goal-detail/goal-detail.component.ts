@@ -38,7 +38,10 @@ export class GoalDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDeleteGoal() {}
+  onDeleteGoal() {
+    this.goalService.deleteGoal(this.id);
+    this.router.navigate(['/goals']);
+  }
 
   /**
    * Unsubscribes from the route parameters subscription when the component
