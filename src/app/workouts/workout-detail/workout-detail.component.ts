@@ -54,18 +54,23 @@ export class WorkoutDetailComponent implements OnInit, OnDestroy {
    * a YouTube embed URL
    */
   transformUrlsToEmbedUrls(videos: string[]) {
+    // Regex to match the workout videos with
+    const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+
     // Create a new array of video URLs
     let videoUrls = videos.map((url) => {
-      let videoId = url.slice(32);
-      // Get rid of URL parameters in URL
-      if (videoId.includes('&')) {
-        // Only get the beginning of the string and the characters before the &
-        videoId = videoId.substring(0, videoId.indexOf('&'));
-      }
+      const match = url.match(youtubeRegex);
 
-      return this.sanitizer.bypassSecurityTrustResourceUrl(
-        `https://www.youtube.com/embed/${videoId}`
-      );
+      // If the video matches the YouTube regex, transform it into an embed URL
+      if(match && match[1]) {
+        const videoId = match[1];
+        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+      }
+      else {
+        // Return default video if videos do not match
+        return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/dQw4w9WgXcQ?si=hwXlkfsnSNZApfGE');
+      }
     });
 
     // Return the newly created video urls
