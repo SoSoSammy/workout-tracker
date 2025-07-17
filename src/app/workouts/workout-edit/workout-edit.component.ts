@@ -115,6 +115,11 @@ export class WorkoutEditComponent implements OnInit, OnDestroy {
    * and creates a new workout if not. Redirects up one level after submitting the form.
    */
   onSubmit() {
+    if (!this.verifyWorkoutVideos(this.workoutForm.value.videos)) {
+      window.alert('Please enter in a valid YouTube URL');
+      return;
+    }
+
     // Editing a workout
     if (this.editMode)
       this.workoutService.updateWorkout(this.id, this.workoutForm.value);
@@ -123,6 +128,21 @@ export class WorkoutEditComponent implements OnInit, OnDestroy {
 
     // Redirect up a level
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  /**
+   * Verifies that all the workout video URLs from the workout edit form are valid.
+   * 
+   * @param videos - the array of video URLs from the user's form input
+   * @returns true if all the video URLs are valid and match the format of a YouTube video URL, false
+   * otherwise
+   */
+  verifyWorkoutVideos(videos: string[]) : boolean {
+    // Regex to match the workout videos with
+    const youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+
+    // Return true if all URLs match the regex, false otherwise
+    return videos.every(url => youtubeRegex.test(url));
   }
 
   /**
