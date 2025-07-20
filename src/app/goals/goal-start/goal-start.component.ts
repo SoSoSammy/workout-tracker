@@ -2,6 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-goal-start',
-  template: '<p>No goal selected!</p>',
+  templateUrl: './goal-start.component.html',
 })
 export class GoalStartComponent {}
