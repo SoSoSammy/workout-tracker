@@ -1,21 +1,21 @@
 <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()">
   <!-- Name -->
   <div class="mb-3">
-    <label for="name">Name</label>
+    <label for="name">Workout Name</label>
     <input type="text" id="name" class="form-control" formControlName="name" />
   </div>
   <!-- end .mb-3 -->
 
   <!-- Date -->
   <div class="mb-3">
-    <label for="date">Date</label>
+    <label for="date">Date of Workout</label>
     <input type="date" id="date" class="form-control" formControlName="date" />
   </div>
   <!-- end .mb-3 -->
 
   <!-- Type -->
   <div class="mb-3">
-    <label for="type">Type</label>
+    <label for="type">Workout Type</label>
     <input
       type="text"
       id="type"
@@ -31,19 +31,23 @@
 
   <!-- Duration -->
   <div class="mb-3">
-    <label for="duration">Duration</label>
-    <input
-      type="text"
-      id="duration"
-      class="form-control"
-      formControlName="duration"
-    />
+    <label for="duration">Duration of Workout</label>
+    <div class="input-group">
+      <input
+        type="text"
+        id="duration"
+        class="form-control"
+        formControlName="duration"
+        aria-describedby="duration-units"
+      />
+      <span class="input-group-text" id="duration-units">minutes</span>
+    </div>
   </div>
   <!-- end .mb-3 -->
 
-  <!-- YouTube Video Urls -->
+  <!-- YouTube Video URLs -->
   <div class="mb-3">
-    <label for="video">Youtube Video Urls</label>
+    <label for="video">Youtube Video URLs</label>
     <div formArrayName="videos">
       <div *ngFor="let videoCtrl of controls; let i = index" class="row">
         <div class="col-11">
