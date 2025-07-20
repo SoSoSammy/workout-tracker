@@ -57,5 +57,5 @@
 ></iframe>
 
 <!-- Notes -->
-<h3 class="mt-4">Notes</h3>
+<h3 class="mt-4" *ngIf="workout.notes !== ''">Notes</h3>
 <p>{{ workout.notes }}</p>
