@@ -63,7 +63,7 @@ export class GoalEditComponent implements OnInit, OnDestroy {
       name: new FormControl(goalName, Validators.required),
       startDate: new FormControl(goalStartDate, Validators.required),
       endDate: new FormControl(goalEndDate),
-      description: new FormControl(goalDescription, Validators.required),
+      description: new FormControl(goalDescription),
     });
   }
 
