@@ -79,7 +79,7 @@ export class WorkoutEditComponent implements OnInit, OnDestroy {
       type: new FormControl(workoutType, Validators.required),
       duration: new FormControl(workoutDuration, Validators.required),
       videos: workoutVideos,
-      notes: new FormControl(workoutNotes, Validators.required),
+      notes: new FormControl(workoutNotes),
     });
   }
 
