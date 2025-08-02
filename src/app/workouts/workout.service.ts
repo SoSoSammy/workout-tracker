@@ -85,7 +85,7 @@ export class WorkoutService {
    * array if there are no workouts
    */
   private getLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('workouts'));
+    const data = JSON.parse(localStorage.getItem('workout-tracker-workouts'));
 
     if (!data) return [];
 
@@ -98,6 +98,6 @@ export class WorkoutService {
    * @param workouts - the workouts to be stored in local storage
    */
   private setLocalStorage(workouts: Workout[]) {
-    localStorage.setItem('workouts', JSON.stringify(workouts));
+    localStorage.setItem('workout-tracker-workouts', JSON.stringify(workouts));
   }
 }

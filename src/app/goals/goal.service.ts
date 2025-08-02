@@ -85,7 +85,7 @@ export class GoalService {
    * array if there are no goals
    */
   private getLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('goals'));
+    const data = JSON.parse(localStorage.getItem('workout-tracker-goals'));
 
     if (!data) return [];
 
@@ -98,6 +98,6 @@ export class GoalService {
    * @param goals - the goals to be stored in local storage
    */
   private setLocalStorage(goals: Goal[]) {
-    localStorage.setItem('goals', JSON.stringify(goals));
+    localStorage.setItem('workout-tracker-goals', JSON.stringify(goals));
   }
 }
